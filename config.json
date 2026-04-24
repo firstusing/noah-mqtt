@@ -1,0 +1,10 @@
+{
+  "name": "Noah MQTT",
+  "version": "0.0.29",
+  "slug": "noah_mqtt",
+  "arch": ["amd64"],
+  "startup": "services",
+  "boot": "auto",
+  "options": {},
+  "schema": {}
+}
