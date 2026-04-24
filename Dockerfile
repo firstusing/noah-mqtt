@@ -15,15 +15,15 @@ RUN go mod download
 COPY . .
 RUN go build -o noah-mqtt cmd/noah-mqtt/main.go
 
-# scratch image to run
-FROM scratch
+# Home Assistant Add-on base image
+ARG BUILD_FROM=ghcr.io/home-assistant/base:latest
+FROM $BUILD_FROM
 
-# Copy built binaries
-COPY --from=builder /app/noah-mqtt /noah-mqtt
-COPY LICENSE /
-COPY passwd /etc/passwd
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+# Copy built binary
+COPY --from=builder /app/noah-mqtt /usr/bin/noah-mqtt
 
-# Set permissions and entry point
-USER gouser
-ENTRYPOINT ["/noah-mqtt"]
+# Set permissions
+RUN chmod +x /usr/bin/noah-mqtt
+
+# Start application
+CMD ["/usr/bin/noah-mqtt"]
